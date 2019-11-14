@@ -1,0 +1,18 @@
+.item{
+  display: inline-block;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  margin: 2px;
+  color: rgb(3, 102, 77);
+  cursor: pointer;
+  -webkit-user-select: none;
+}
+
+.item.disabled{
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.item.active{
+  color: red;
+}
