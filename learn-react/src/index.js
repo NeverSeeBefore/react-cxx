@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import BallList from './components/ballList/BallList'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// ReactDOM.render(<Ball left={0} top={100} speedx={200} speedy={200}></Ball>, document.getElementById('root'));
+ReactDOM.render(<BallList></BallList>, document.getElementById('root'));
 
