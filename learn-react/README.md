@@ -1,68 +1,53 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+16.0.0 旧版
+  生命周期
+1. constructor
+  1. 只调用1次，不能使用setState
+2. componentsWillMount（新版已移除）
+  1. 只调用一次，不能使用setState, 
+  2. 特定情况下会调用多次
+3. render
+  1. 返回的内容会被挂载到虚拟dom树上
+  2. 需要重新渲染就会被运行
+  3. 严禁使用setState，会溢出
+4. componentDidMount
+  1. 指挥调用一次
+  2. 可以使用setState
+  3. 通常会将 网络请求、启动计时器写在此函数中
+  **此刻组件进入活跃状态**
+5. shouldComponentUpdate
+  1. 性能优化点
+  2. 参数： 新的属性， 新的状态
+  3. 返回值应为Boolean
+6. componentWillUpdate
+  1. 没什么用
+  2. 参数： 新的属性， 新的状态
+7. componentDidUpdate
+  1. 参数： 更新前的属性， 更新前的状态
+  2. 往往在这里使用dom操作，改变元素
+  **属性发生变化后**
+1. componentWillReceiveProps（新版已移除，因为可能导致一些bug）
+  1. 参数： 新的属性值
+  2. 此时当前的属性值还未改变。
+  **状态发生变化后**
 
-## Available Scripts
+  **销毁阶段**
+1.componentWillUnmount
+  1. 销毁组件的以来资源，比如计时器
 
-In the project directory, you can run:
 
-### `yarn start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+>= 16.0.0 新版
+  生命周期
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+static getDerivedStateFromProps(props, state)
+  1. 获取新的属性和状态
+  2. 该函数时静态的
+  3. 该函数的返回值会覆盖掉原来的状态
+  4. 该函数几乎没有用
+组件每次被rerender的时候，包括在组件构建之后(虚拟dom之后，实际dom挂载之前)，每次获取新的props或state之后；每次接收新的props之后都会返回一个对象作为新的state，返回null则说明不需要更新state；配合componentDidUpdate，可以覆盖componentWillReceiveProps的所有用法
+getSnapshotBeforeUpdate(prevProps, prevState)
+  1. 真是dom构建完成，但是还没有渲染到页面上
+  2. 通常用于实现一些附加的dom操作（设置滚动条，添加动画。。。，即想要绕过react去操作dom的时候）
+  3. 函数的返回值，会作为componentDidUpdate的第三个参数
+触发时间: update发生的时候，在render之后，在组件dom渲染之前；返回一个值，作为componentDidUpdate的第三个参数；配合componentDidUpdate, 可以覆盖componentWillUpdate的所有用法
