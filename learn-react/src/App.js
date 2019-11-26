@@ -3,7 +3,7 @@ import "./App.css";
 import Modal from "./components/Modal";
 import Comp from "./components/Comp";
 import ThreeLayOut from "./components/ThreeLayout";
-import CheckBoxGrop from "./components/CheckBoxGroup";
+import CheckBoxGroup from "./components/CheckBoxGroup";
 
 import { getAllStudent } from "./services/student";
 import RadioBoxGroup from "./components/RadioBoxGroup";
@@ -85,12 +85,12 @@ class App extends React.Component {
   getMain() {
     return (
       <>
-        <CheckBoxGrop
+        <CheckBoxGroup
           datas={this.state.checkBoxGropDatas.datas}
           name={this.state.checkBoxGropDatas.name}
           chooseDatas={this.state.checkBoxGropDatas.chooseDatas}
           onChange={this.handleCheckBoxChange}
-        ></CheckBoxGrop>
+        ></CheckBoxGroup>
         <RadioBoxGroup
           datas={this.state.radioBoxGroup.datas}
           name={this.state.radioBoxGroup.name}
