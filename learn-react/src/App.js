@@ -1,18 +1,16 @@
 import React from 'react';
 import './App.css';
-import Banner from './Component/common/Banner';
-import src1 from './assets/sona.jpg';
-import src2 from './assets/sona-2.jpg';
-import src3 from './assets/sona-3.jpg';
+import OldContext from './Component/OldContext';
 
-function App() {
-  // let imgSrcs
+class App extends React.Component {
 
-  return (
-    <div className="App">
-      <Banner imgSrcs={[src1, src2, src3]}></Banner>
-    </div>
-  );
+  render() {
+    return (
+      <div className="App">
+        <OldContext></OldContext>
+      </div>
+    );
+  }
 }
 
 export default App;
