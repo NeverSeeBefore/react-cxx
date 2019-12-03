@@ -49,6 +49,7 @@ class CompA extends React.Component{
   static contextTypes = {
     a: PropTypes.number,
     b: PropTypes.string,
+    handleChange: PropTypes.func
   }
 
   // static childContextTypes = {
@@ -69,6 +70,7 @@ class CompA extends React.Component{
         <div>CompA</div>
         <div>a: {this.context.a}</div>
         <div>b: {this.context.b}</div>
+        <div><button onClick={() =>  {this.context.handleChange(this.context.a + 2)}}>a + 1</button></div>
         <CompB></CompB>
       </div>
     )
@@ -88,13 +90,15 @@ class CompB extends React.Component{
   }
 
   render(){
+    const a = this.context.a;
+    console.log('a', a)
     return (
       <div>
         <div>CompB</div>
         <div>a: {this.context.a}</div>
         <div>b: {this.context.b}</div>
         <div>c: {this.context.c}</div>
-        <div><button onClick={() => {this.context.handleChange(this.context.a + 2)}}>a + 2</button></div>
+        <div><button onClick={() => {this.context.handleChange(a + 2)}}>a + 2</button></div>
       </div>
     )
   }
