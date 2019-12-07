@@ -1,0 +1,12 @@
+.point {
+  position: relative;
+  background: aquamarine;
+  width: 500px;
+  height: 500px;
+}
+.box{
+  width: 100px;
+  height: 100px;
+  background: #008c8c;
+  position: absolute;
+}
