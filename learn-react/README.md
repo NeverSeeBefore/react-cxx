@@ -1,15 +1,16 @@
-**高阶组件**
-HOC： Higher-Order Component 高阶组件，以组件作为参数，并返回一个组件
+# Protals
 
-组件： function comp () {
-  return <h1>这是组件</h1>
-}
+插槽： 将一个 React 元素渲染到指定的 DOM 容器中
 
-react组件元素： <comp />
-react html element:<h1></h1>
+ReactDom.createProtal(React 元素， 真实 DOM 容器)， 返回的是 React 元素
 
-通产，可以利用HOC实现横切关注点
+ReactDom.createPortal(
+<div className="child-a">
+ChildA<ChildB></ChildB>
+</div>,
+document.querySelector('.modal'))
 
-> 举例
-> 20个组件在创建组件和销毁组件时，需要做日志记录
-> 20个组件，他们需要显示一些内容，得到的数据结构完全一致
+**注意事件冒泡**
+
+1. react 中的事件是包装过的
+2. 它的事件冒泡的根据虚拟 dom 树来冒泡的
