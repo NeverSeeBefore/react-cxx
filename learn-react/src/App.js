@@ -2,28 +2,47 @@ import React from "react";
 import "./App.css";
 
 class App extends React.Component {
-  state = {};
+  state = { a: 0 };
   componentDidMount() {}
   render() {
-    // console.log(
-    //   <div>
-    //     <p>
-    //       <ul>
-    //         <li>1</li>
-    //         <li>2</li>
-    //         <li>3</li>
-    //       </ul>
-    //     </p>
-    //   </div>
-    // );
     return (
       <div className="App">
-        abc {null} {undefined}
-        {["arr1", <div>arr2</div>, "arr3"]}
-        <div></div>
+        App
+        <A n={this.state.a}></A>
       </div>
     );
   }
 }
 
 export default App;
+
+class A extends React.Component {
+  constructor(props){
+    super(props);
+  }
+  state = {
+    n: 'A-n'
+  }
+  render() {
+    return (
+      <div>
+        A: prop[{this.props.n}]
+        <B n={this.state.n}></B>
+
+      </div>
+    );
+  }
+}
+class B extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>B {this.props.n}</h1>
+        <C></C>
+      </div>
+    );
+  }
+}
+function C(props) {
+  return <div>C</div>;
+}
