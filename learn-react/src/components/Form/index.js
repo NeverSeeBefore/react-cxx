@@ -8,6 +8,9 @@ class Form extends Component {
   static propTypes = {
     onSubmit: PropTypes.func
   }
+  componentWillMount(){
+    console.log('componentWillMount')
+  }
   state = {
     formData: {},
     changeFormData: (name, value) => {

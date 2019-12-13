@@ -5,12 +5,16 @@ import Test from "./components/Form/Test";
 class App extends React.Component {
   state = {};
   componentDidMount() {}
-
+  componentWillMount(){
+    console.log('componentWillMount')
+  }
   render() {
     return (
-      <div className="App">
-        <Test></Test>
-      </div>
+      <React.StrictMode>
+        <div className="App">
+          <Test></Test>
+        </div>
+      </React.StrictMode>
     );
   }
 }
