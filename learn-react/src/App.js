@@ -29,23 +29,27 @@ function App() {
 export default App;
 
 function MovableBlock(props) {
+  const [n, setN] = useState(5);
   useEffect(() => {
-    console.log('副作用函数')
-
-    return () => {
-      console.log('清理函数');
+    // console.log("副作用函数");
+    if(n === 0){
+      return ;
     }
-  });
+    setTimeout(() => {
+      setN(n - 1);     
+    }, 500)
+    return () => {
+      // console.log("清理函数");
+    };
+  }, [n]);
+  // 使用空数组作为依赖项,此时副作用函数指挥运行一次
+  // });
   return (
-    <div
-      style={{
-        width: 100,
-        height: 100,
-        backgroundColor: "orange",
-        position: "fixed",
-        top: "0",
-        left: "0"
-      }}
-    ></div>
+    <div>
+      <h1>{n}</h1>
+      <button onClick={() => {
+        setN(n + 1);
+      }}>N+1</button>
+    </div>
   );
 }
