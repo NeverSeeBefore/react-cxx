@@ -124,3 +124,16 @@ const [n, setN] = useState(0) // 常用写法
 # Context Hook
 
 获取上下文
+var ctx = React.createContext();
+var context = useContext(ctx)
+
+# CallBack Hook
+
+useCallBack
+得到固定引用值的函数，通常用于性能优化
+*参数*
+1. 函数， useCallBack会固定改函数，只要依赖项没有变化，则返回相对固定的函数地址
+2. 数组， 依赖项
+
+*返回值*
+相对固定的函数地址
