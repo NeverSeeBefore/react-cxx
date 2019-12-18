@@ -1,61 +1,75 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState } from "react";
 import "./App.css";
-import { useAllStudents } from "./components/myHook/useAllStudent";
+import useReducer from "./components/myHook/useReducer";
 
-function Test() {
-  // 自定义钩子
-  const stus = useAllStudents(1);
-  console.log(stus);
-  return null;
+/**
+ * 根据当前的数据， 生成一个新的数据
+ * @param {*} state
+ * @param {*} action
+ */
+function reducer(state, action) {
+  switch (action.type) {
+    case "increase":
+      return state + 1;
+    case "decrease":
+      if (state === 0) {
+        return 0;
+      }
+      return state - 1;
+    default:
+      return state;
+  }
 }
-const CounterWithTimer = withTimer(Counter);
+
+// function App() {
+//   const [n, setN] = useState(0);
+
+//   function dispatch(action) {
+//     const newN = reducer(n, action);
+//     setN(newN);
+//   }
+//   return (
+//     <div className="App">
+//       <button
+//         onClick={() => {
+//           dispatch({ type: "increase" });
+//         }}
+//       >
+//         ++++++
+//       </button>
+//       <span>{n}</span>
+//       <button
+//         onClick={() => {
+//           dispatch({ type: "decrease" });
+//         }}
+//       >
+//         --------
+//       </button>
+//     </div>
+//   );
+// }
+
 function App() {
+  const [n, dispatchN] = useReducer(reducer, 0);
+
   return (
     <div className="App">
-      {/* <Test></Test> */}
-      {/* <Counter></Counter> */}
-      <CounterWithTimer></CounterWithTimer>
+      <button
+        onClick={() => {
+          dispatchN({ type: "increase" });
+        }}
+      >
+        ++++++
+      </button>
+      <span>{n}</span>
+      <button
+        onClick={() => {
+          dispatchN({ type: "decrease" });
+        }}
+      >
+        --------
+      </button>
     </div>
   );
 }
 export default App;
-
-
-function Counter() {
-  // useTimer(() => {
-  //   console.log("counting ---HOOK");
-  // }, 1000);
-  return null
-}
-
-// 再组件挂载后启动计时器
-// 1. 自定义HOOK
-function useTimer(func, duration) {
-  const [timer, setTimer] = useState(null);
-  useEffect(() => {
-    setTimer(setInterval(func, duration));
-    return () => {
-      console.log("清理函数");
-      clearInterval(timer);
-    };
-  }, []);
-}
-// 2. HOK
-function withTimer(Comp){
-  return class TimerWrapper extends Component{
-    componentDidMount(){
-      this.timer = setInterval(() => {
-        console.log('counting ---HOC')
-      }, 1000);
-    }
-    componentWillUnmount(){
-      console.log('componentWillUnmount')
-      clearInterval(this.timer);
-    }
-
-    render() {
-      return <Comp {...this.props}></Comp>
-    }
-  }
-}
-// 3. render porps
