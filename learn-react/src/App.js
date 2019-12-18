@@ -1,54 +1,50 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo } from "react";
 import "./App.css";
-import useReducer from "./components/myHook/useReducer"; 
+import useReducer from "./components/myHook/useReducer";
 
-import AppUseCallBack from './AppUseCallBack';
+import AppUseMemo from "./AppUseMemo";
 
 function App() {
   return (
     <div>
-      <Parent></Parent>
-      <AppUseCallBack></AppUseCallBack>
+      <AppUseMemo></AppUseMemo>
+      <TestMeMo></TestMeMo>
     </div>
   );
 }
 
 export default App;
 
-function Parent() {
-  const [txt, setTxt] = useState(123);
+function TestMeMo() {
+  const [range, setRange] = useState({ min: 1, max: 10000 });
   const [n, setN] = useState(0);
-  console.log("Parent Render");
+  const list = [];
+  for (let i = range.min; i < range.max; i++) {
+    list.push(<Item key={i} value={i}></Item>);
+  }
+  // const list = useMemo(() => {
+  //   const list = [];
+  //   for (let i = range.min; i < range.max; i++) {
+  //     list.push(<Item key={i} value={i}></Item>);
+  //   }
+  //   return list;
+  // }, [range.min, range.max]);
   return (
-    <>
-      {/* 每次改变input， 会导致重新渲染所有子组件 */}
-      {/* 每次渲染都会导致组件绑定的函数地址变化，因此，有渲染优化的子组件可能失去优化功能 */}
-      {/* 此时就到了 useCallBack 登场了*/}
-      <Test
-        txt={txt}
-        onClick={() => {
-          setTxt(txt + 1);
-        }}
-      ></Test>
+    <div className="TestMemo">
+      <ul>{list}</ul>
       <input
         type="number"
         value={n}
         onChange={e => {
-          setN(parseInt(e.target.value));
+          setN(e.target.value);
+          // console.log(e, e.target.value);
         }}
       ></input>
-    </>
+    </div>
   );
 }
 
-class Test extends React.PureComponent {
-  render() {
-    console.log("Test渲染");
-    return (
-      <div>
-        {this.props.txt}
-        <button onClick={this.props.onClick}>change</button>
-      </div>
-    );
-  }
+function Item(props) {
+  console.log("Item Render");
+  return <li>{props.value}</li>;
 }

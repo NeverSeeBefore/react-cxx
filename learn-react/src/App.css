@@ -8,3 +8,11 @@
   justify-content: center;
   align-items: center;
 }
+.TestMemo{
+  width: 500px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border: 2px solid black;
+}
