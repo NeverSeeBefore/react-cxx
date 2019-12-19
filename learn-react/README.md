@@ -187,3 +187,13 @@ useRef
 返回  固定对象 {current: 值} 
 
 createRef每次创建都是全新的
+
+# ImperativeHandle Hook
+
+useImperativeHandle(ref, () => {return ref.current}, [])
+参数： 
+1. ref
+2. 函数，返回值作为ref.current
+3. [], 依赖项，(不传依赖项时，每次渲染都会执行；传了依赖项，第一次运行执行，之后只有依赖项变化时执行)
+
+

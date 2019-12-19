@@ -1,72 +1,85 @@
-import React, { useContext, useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useRef, useImperativeHandle } from "react";
 import "./App.css";
 
 function App() {
+  const [, forceUpdate] = useState({});
+  const testRef = useRef();
   return (
     <div>
-      <TestRef></TestRef>
-      <TestCreateRef></TestCreateRef>
-      {/* <TestEffect></TestEffect> */}
+      {/* <Test ref={testRef}></Test>
+      <button
+        onClick={() => {
+          console.log("调用Test组件的方法");
+          testRef.current.method();
+        }}
+      >
+        abc
+      </button> */}
+
+      {/* <TestforwardRef ref={testRef}></TestforwardRef>
+      <button
+        onClick={() => {
+          console.log("testRef", testRef);
+          // testRef.current.method();
+        }}
+      >
+        abc
+      </button> */}
+
+      <TestforwardRefAndUseImperativeHandle
+        ref={testRef}
+      ></TestforwardRefAndUseImperativeHandle>
+      <button
+        onClick={() => {
+          console.log(
+            "调用TestforwardRefAndUseImperativeHandle组件的方法",
+            testRef
+          );
+          testRef.current.method();
+          forceUpdate({});
+        }}
+      >
+        abc
+      </button>
     </div>
   );
 }
 
 export default App;
-window.arr = [];
-function TestRef() {
-  
-  const inpRef = useRef();
-  window.arr.push(inpRef);
-  const [n, setN] = useState(0);
-  return (
-    <div>
-      <input ref={inpRef}></input>
-      <button
-        onClick={() => {
-          console.log(inpRef.current.value);
-          setN(n + 1);
-        }}
-      >
-        useRef
-      </button>
-    </div>
-  );
-}
-function TestCreateRef() {
-  
-  const inpRef = React.createRef();
-  window.arr.push(inpRef);
-  const [n, setN] = useState(0);
-  return (
-    <div>
-      <input ref={inpRef}></input>
-      <button
-        onClick={() => {
-          console.log(inpRef.current.value);
-          setN(n + 1);
-        }}
-      >
-        createRef
-      </button>
-    </div>
-  );
-}
 
-// let timer = null;
-function TestEffect() {
-  const [n, setN] = useState(3);
-  const timerRef = useRef();
-  useEffect(() => {
-    if(n === 0){
-      return;
-    }
-    timerRef.current = setTimeout(() => {
-      setN(n - 1);
-    }, 1000)
-    return () => {
-      clearTimeout(timerRef.current);
-    }
-  }, [n])
+// calssComponent
+// class Test extends React.PureComponent {
+//   method() {
+//     console.log("TestMethodCalled");
+//   }
+//   render() {
+//     return <div>TestComp</div>;
+//   }
+// }
 
-  return <div>{n}</div>
+// React.forwardRef(Comp)
+// function Test(props, ref) {
+//   return <div ref={ref}>TestComp</div>;
+// }
+// const TestforwardRef = React.forwardRef(Test);
+
+// useImperativeHandle
+function TestUseImperativeHandle(props, ref) {
+  useImperativeHandle(
+    ref,
+    () => {
+      console.log("useImperativeHandle run");
+      return {
+        method: function() {
+          console.log("useImperativeHandle methods");
+        }
+      };
+    },
+    []
+  );
+
+  return <div>Test useImperativeHandle</div>;
 }
+const TestforwardRefAndUseImperativeHandle = React.forwardRef(
+  TestUseImperativeHandle
+);
