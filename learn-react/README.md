@@ -201,5 +201,12 @@ useImperativeHandle(ref, () => {return ref.current}, [])
 16.66666ms浏览器刷新
 
 useEffect: 浏览器刷新完成，用户看到渲染效果之后才会运行
-useLayoutEffect: 
+useLayoutEffect: 渲染之前
+
+# DebugValue Hook
+
+useDebugValue
+用于将自定义HOOk的关联数据显示到调试栏
+
+写在自定义组件中
 
