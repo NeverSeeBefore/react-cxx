@@ -1,85 +1,55 @@
-import React, { useState, useRef, useImperativeHandle } from "react";
+import React, {
+  useState,
+  useRef,
+  useImperativeHandle,
+  useLayoutEffect,
+  useEffect
+} from "react";
 import "./App.css";
 
 function App() {
-  const [, forceUpdate] = useState({});
-  const testRef = useRef();
+  return (
+    <div className="App">
+      <div>LayoutEffectHook</div>
+      <TestUseEffect></TestUseEffect>
+      <TestUseLayoutEffect></TestUseLayoutEffect>
+    </div>
+  );
+}
+export default App;
+
+function TestUseEffect() {
+  const [n, setN] = useState(0);
+  const h1Ref = useRef();
+  // 因为useEffect 的执行时间再页面渲染完成之后 ，所以，会闪动一下
+  useEffect(() => {
+    h1Ref.current.innerText = Math.random().toFixed(2);
+  })
+
   return (
     <div>
-      {/* <Test ref={testRef}></Test>
-      <button
-        onClick={() => {
-          console.log("调用Test组件的方法");
-          testRef.current.method();
-        }}
-      >
-        abc
-      </button> */}
-
-      {/* <TestforwardRef ref={testRef}></TestforwardRef>
-      <button
-        onClick={() => {
-          console.log("testRef", testRef);
-          // testRef.current.method();
-        }}
-      >
-        abc
-      </button> */}
-
-      <TestforwardRefAndUseImperativeHandle
-        ref={testRef}
-      ></TestforwardRefAndUseImperativeHandle>
-      <button
-        onClick={() => {
-          console.log(
-            "调用TestforwardRefAndUseImperativeHandle组件的方法",
-            testRef
-          );
-          testRef.current.method();
-          forceUpdate({});
-        }}
-      >
-        abc
-      </button>
+      <button onClick={() => {
+        setN(n + 1);
+      }}>effectHookchange</button>
+      <h1 ref={h1Ref}>{n}</h1>
     </div>
   );
 }
 
-export default App;
+function TestUseLayoutEffect() {
+  const [n, setN] = useState(0);
+  const h1Ref = useRef();
+  // 因为useEffect 的执行时间再页面渲染完成之后 ，所以，会闪动一下
+  useLayoutEffect(() => {
+    h1Ref.current.innerText = Math.random().toFixed(2);
+  })
 
-// calssComponent
-// class Test extends React.PureComponent {
-//   method() {
-//     console.log("TestMethodCalled");
-//   }
-//   render() {
-//     return <div>TestComp</div>;
-//   }
-// }
-
-// React.forwardRef(Comp)
-// function Test(props, ref) {
-//   return <div ref={ref}>TestComp</div>;
-// }
-// const TestforwardRef = React.forwardRef(Test);
-
-// useImperativeHandle
-function TestUseImperativeHandle(props, ref) {
-  useImperativeHandle(
-    ref,
-    () => {
-      console.log("useImperativeHandle run");
-      return {
-        method: function() {
-          console.log("useImperativeHandle methods");
-        }
-      };
-    },
-    []
+  return (
+    <div>
+      <button onClick={() => {
+        setN(n + 1);
+      }}>layoutEffectHookchange</button>
+      <h1 ref={h1Ref}>{n}</h1>
+    </div>
   );
-
-  return <div>Test useImperativeHandle</div>;
 }
-const TestforwardRefAndUseImperativeHandle = React.forwardRef(
-  TestUseImperativeHandle
-);
