@@ -1,7 +1,7 @@
 import React from "react";
-
-import "./index.css";
 import { CSSTransition } from "react-transition-group";
+import PropTypes from 'prop-types';
+import "./index.css";
 
 export default function Alert(props) {
   return (
@@ -12,7 +12,6 @@ export default function Alert(props) {
       classNames="alert"
       onEnter={() => {props.beforeEnter && props.beforeEnter()}}
       onExited={() => {props.afterExit && props.afterExit()}}
-      addEndListener={(node, ) => {}}
     >
       <div className="alert-body">
         <div className="alert-header">
@@ -41,6 +40,13 @@ export default function Alert(props) {
 }
 
 Alert.defaultProps = {
-  title: "Animation Alert message",
-  msg: "This alert message is being transitioned in and out of the DOM."
+  title: "",
+  msg: ""
 };
+Alert.propTypes = {
+  title: PropTypes.string.isRequired,
+  msg: PropTypes.string.isRequired,
+  onClose: PropTypes.func,
+  beforeEnter: PropTypes.func,
+  afterExit: PropTypes.func,
+}
