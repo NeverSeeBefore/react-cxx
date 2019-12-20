@@ -1,0 +1,20 @@
+.css-t-exit{
+  opacity: 1;
+}
+.css-texit-active{
+  opacity: 0;
+  transition: 2s;
+}
+.css-t-exit-done{
+  opacity: 0;
+}
+.css-t-enter{
+  opacity: 0;
+}
+.css-tenter-active{
+  opacity: 1;
+  transition: 2s;
+}
+.css-t-enter-done{
+  opacity: 1;
+}

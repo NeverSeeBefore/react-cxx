@@ -1,40 +1,33 @@
-import React, {
-  useState,
-  useRef,
-  useImperativeHandle,
-  useLayoutEffect,
-  useEffect,
-  useDebugValue
-} from "react";
+import React, { useState, useCallback } from "react";
 import "./App.css";
+// import TransitionTest from "./Transition";
+// import CSSTransitionTest from "./CSSTransition";
+import Alert from "./components/Alert";
 
 function App() {
+  const [showAlert, setShowAlert] = useState(false);
+  const [showButton, setShowButton] = useState(true);
   return (
+    
     <div className="App">
-      <div>LayoutEffectHook</div>
-      <TestUseDebugValue></TestUseDebugValue>
+      {/* <TransitionTest></TransitionTest> */}
+      {/* <hr style={{ width: "100%" }}></hr> */}
+      {/* <CSSTransitionTest></CSSTransitionTest> */}
+      {/* <hr style={{ width: "100%" }}></hr> */}
+
+
+      {showButton && <button
+        className="alert-button"
+        onClick={() => {
+          setShowAlert(!showAlert);
+        }}
+      >
+        Control Alert
+      </button>}
+      <Alert show={showAlert} beforeEnter={() => {setShowButton(false)}} afterExit={() => {setShowButton(true)}} onClose={() => {setShowAlert(false)}}></Alert>
+
+      
     </div>
   );
 }
 export default App;
-
-function TestUseDebugValue() {
-  const [n, setN] = useState(0);
-  const [str, setStr] = useState('abc');
-  const [students, ] = useTest([])
-  useEffect(() => {
-    console.log('useEffect')
-  })
-
-  return (
-    <div>
-    </div>
-  );
-}
-
-function useTest(initial){
-  const [students, setStudents] = useState(initial || [])
-  useDebugValue("students")
-  // useDebugValue(students)
-  return students;
-}
