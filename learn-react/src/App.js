@@ -3,6 +3,7 @@ import "./App.css";
 // import TransitionTest from "./Transition";
 // import CSSTransitionTest from "./CSSTransition";
 import Alert from "./components/Alert";
+import Test from "./components/FadeTransition/Test";
 
 function App() {
   const [showAlert, setShowAlert] = useState(false);
@@ -13,7 +14,7 @@ function App() {
 
       {/* <CSSTransitionTest></CSSTransitionTest> */}
 
-      {showButton && (
+      {/* {showButton && (
         <button
           className="alert-button"
           onClick={() => {
@@ -36,7 +37,9 @@ function App() {
         onClose={() => {
           setShowAlert(false);
         }}
-      ></Alert>
+      ></Alert> */}
+
+      <Test></Test>
     </div>
   );
 }
