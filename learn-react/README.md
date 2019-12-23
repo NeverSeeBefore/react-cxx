@@ -2,6 +2,8 @@
 
 React动画库： react-transition-group      react-motion
 
+## Transition
+
 ## CSSTransition
 
 当进入时，发生：
@@ -14,3 +16,6 @@ React动画库： react-transition-group      react-motion
 2. 在下一帧（*exit*样式完全应用到了元素）， 立即为该元素添加样式*exit-active*
 3. 当timeout结束，去掉之前的样式，添加样式*exit-done*
 
+## Switchtransition
+
+## TransitionGroup
