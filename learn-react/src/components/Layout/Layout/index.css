@@ -1,0 +1,46 @@
+.container{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+.container .header{
+  height: 60px;
+  color: #fff;
+  background-color: black;
+  border-bottom: 1px solid #333;
+  box-sizing: border-box;
+}
+.container .middle{
+  position: absolute;
+  overflow: hidden;
+  left: 0;
+  right: 0;
+  top: 60px;
+  bottom: 0;
+  color: #000;
+  background-color: white;
+}
+.middle .aside{
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 200px;
+  overflow: auto;
+  color: #fff;
+  background-color: black;
+  border-right: 1px solid #333;
+  box-sizing: border-box;
+}
+.middle .main{
+  position: absolute;
+  left: 200px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  color: #fff;
+  background-color: black;
+  padding: 20px;
+}
