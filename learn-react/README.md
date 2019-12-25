@@ -1,15 +1,19 @@
-**高阶组件**
-HOC： Higher-Order Component 高阶组件，以组件作为参数，并返回一个组件
+npm install react-router-dom
 
-组件： function comp () {
-  return <h1>这是组件</h1>
-}
+## Hash Router 哈希路由
+根据url中的哈希值来确定显示组件
+> 不会导致页面刷新
+> 兼容性好，都支持
 
-react组件元素： <comp />
-react html element:<h1></h1>
 
-通产，可以利用HOC实现横切关注点
+# Browser History Router 浏览器历史记录路由
 
-> 举例
-> 20个组件在创建组件和销毁组件时，需要做日志记录
-> 20个组件，他们需要显示一些内容，得到的数据结构完全一致
+> 以前路径改变一定会刷新页面，现在可以实现不刷新
+1. history.pushState()
+  参数
+  1. {}/'' 附件数据
+  2. '' 页面标题
+  3. "/a/b/c" 新的地址
+2. .replaceState()
+  参数相同
+
