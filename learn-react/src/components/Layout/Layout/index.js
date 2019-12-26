@@ -5,7 +5,8 @@ import "./index.css";
 class Layout extends Component {
   static propTypes = {
     header: PropTypes.element,
-    aside: PropTypes.element
+    aside: PropTypes.element,
+    children: PropTypes.node
   };
 
   render() {

@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from "../../Header";
+import Header from "../../components/Header";
 import Layout from "../../Layout";
-import Aside from "../../Aside";
+import Aside from "../../components/Aside";
 import { Route } from "react-router-dom";
 import Welcome from '../Welcome';
 import StudentList from '../StudentList';

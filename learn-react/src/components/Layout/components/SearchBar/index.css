@@ -1,0 +1,67 @@
+.search-bar {
+  width: 100%;
+  height: 30px;
+  /* border: 1px solid #fff; */
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.search-bar .title {
+  font-size: 12px;
+  font-weight: 500;
+  /* font-family: ; */
+  height: 100%;
+  line-height: 30px;
+}
+.search-bar .key-words-input {
+  border: 1px solid transparent;
+  background-color: black;
+  color: #fff;
+  outline: none;
+  height: 25px;
+  margin: 0 0 0 6px;
+}
+.search-bar .key-words-input:focus {
+  border: 1px solid #333;
+}
+.search-bar .sex-select {
+  margin-left: 6px;
+  background-color: black;
+  color: #fff;
+  font-size: 12px;
+  border: 1px solid transparent;
+}
+.search-bar .sex-select:hover,
+.search-bar .sex-select:focus {
+  border: 1px solid #333;
+  outline: none;
+}
+
+.search-bar .sex-select-option:hover {
+  color: #fff;
+  background-color: orangered;
+}
+.search-bar .sex-select-option {
+  border-bottom: 1px solid orange;
+  box-sizing: border-box;
+}
+
+.search-bar .search-btn {
+  width: 50px;
+  height: 100%;
+  font-size: 12px;
+  color: #fff;
+  background-color: black;
+  border: none;
+  cursor: pointer;
+}
+.search-bar .search-btn:hover {
+  border: 1px solid #333;
+}
+.search-bar .search-btn:focus {
+  outline: none;
+}
+.search-bar .search-btn:active {
+  color: #666;
+  border: 1px solid #333;
+}
