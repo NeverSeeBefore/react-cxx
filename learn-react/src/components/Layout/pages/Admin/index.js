@@ -4,10 +4,10 @@ import Layout from "../../Layout";
 import Aside from "../../components/Aside";
 import { Route } from "react-router-dom";
 import Welcome from '../Welcome';
-import StudentList from '../StudentList';
-import AddStudent from '../AddStudent';
-import CourseList from '../CourseList';
-import AddCourse from '../AddCourse';
+import StudentList from '../student/StudentList';
+import AddStudent from '../student/AddStudent';
+import CourseList from '../course/CourseList';
+import AddCourse from '../course/AddCourse';
 
 export default function Admin (props) {
 

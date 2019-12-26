@@ -9,9 +9,9 @@ class SearchBar extends PureComponent {
   }
   
   onSearch = () =>{
-    if(Object.is(this.state.defaultValue, this.props.defaultValue)){
-      return;
-    }
+    // if(Object.is(this.state.defaultValue, this.props.defaultValue)){
+    //   return;
+    // }
     this.props.onSearch && this.props.onSearch(this.state.defaultValue);
   }
   onChange = (e) => {

@@ -6,7 +6,7 @@ import "./style.css";
  * current: props.current || 1,// 当前页
  * limit: props.limit || 10,    // 页大小
  * panelNumber: props.panelNumber || 5, // 页码最多显示多少的
- *
+ * onChangePage(target) 跳转目标页函数
  */
 export default function Paging(props) {
   const pageNumber = getPageNumber(props.total, props.limit);
@@ -19,7 +19,7 @@ export default function Paging(props) {
 
   return (
     <div>
-      Paging
+      
       <span
         className={props.current === 1 ? "item disabled" : "item"}
         onClick={() => {
@@ -79,7 +79,7 @@ function toPage(target, props) {
 // 计算页号范围
 function getNumberScope (pageNumber, {current, panelNumber}) {
   const mid = Math.ceil(panelNumber / 2)
-  console.log('mid: ', mid);
+  // console.log('mid: ', mid);
   if(pageNumber <= panelNumber){ // 总页数 小于 要显示的个数 
     return {
       min: 1,
