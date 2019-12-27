@@ -54,6 +54,29 @@ Route 组件如果匹配到了，会将上下文作文属性传给组件；
 3. go
 4. forward
 5. back
+6. *listen* 添加一个监听器，监听地址的变化，当地址变化时，会调用传递的函数, 
+  运行时间点，在即将跳转到新页面时
+  - 参数
+    1. location对象，记录当前的地址信息
+    2. action， 一个字符串， 表示进入该地址的方式
+      - POP： 出栈
+        1. 通过点击浏览器前进、后退
+        2. history.go  .back .forward
+      - PUSH: 入栈
+        1. 点击超链接
+        2. history.push
+      - REPLACE:
+        1. history.replaceState
+  - 返回值
+    是一个函数，可以通过该函数取消监听;
+7. *block*  设置阻塞**阻塞只能添加一个**（设置了阻塞，路由设置的getUserConfirmation就会生效） beforeRouteLeave）
+  - 参数
+    可以是字符串： 阻塞消息
+    可以是函数 ： 函数的返回结果为字符串
+        该函数的参数
+          1. location
+          2. action
+  
    **location**
    props.history.location === props.location
    location 记录了地址中都有哪些信息
