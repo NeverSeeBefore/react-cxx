@@ -28,6 +28,9 @@ React-Router 为我们提供了两个重要的组件
     {() => <div style={{ color: "orange" }}>abcdef</div>}
 
   </Route>
+children属性： 无论匹配成不成功都会运行
+render属性：  匹配之后才会运行
+render={(value) => {console.log(value)}}
 
 # Switch 组件
 
