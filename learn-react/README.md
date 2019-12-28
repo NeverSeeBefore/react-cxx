@@ -161,4 +161,27 @@ Redirect : 当加载到该组件时，会无刷新跳转到另一个地址
 vue-router 是静态的配置
 react-router v4之前也是静态的配置，之后改成了动态的组件
 
-vue-router
+实现**vue-router**
+
+
+**滚动条复位**
+1. 高阶组件
+  componentDidMount(){
+
+  }
+2. useEffect
+  useScroll(pathname){
+    useEffect(() => {
+      resetScroll();
+    }, pathname)
+  }
+3. 路由守卫
+  onchange(prevlocation, location){
+    if(prevlocation.pathname !== location.pathname){
+      resetScroll()
+    }
+  }
+
+
+**阻止页面跳转**
+在用户跳转的时候确认跳转
