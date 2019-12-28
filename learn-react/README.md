@@ -185,3 +185,9 @@ react-router v4之前也是静态的配置，之后改成了动态的组件
 
 **阻止页面跳转**
 在用户跳转的时候确认跳转
+（
+  react-router-dom中有组件  Prompt
+  属性
+    when: 是否阻塞
+    message： 阻塞显示的消息;
+）

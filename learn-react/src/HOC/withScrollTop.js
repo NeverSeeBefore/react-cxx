@@ -9,7 +9,6 @@ export default function withScrollTop (Comp) {
     }
     componentWillUnmount(){
       window.scrollTo(0 ,0);
-      
     }
     render(){
       return <Comp {...this.props}></Comp>
