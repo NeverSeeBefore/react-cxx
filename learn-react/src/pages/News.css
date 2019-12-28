@@ -1,0 +1,11 @@
+.news-nav {
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+}
+.news-nav a{
+  color: #000;
+}
+.news-nav a.active{
+  color: springgreen;
+}
