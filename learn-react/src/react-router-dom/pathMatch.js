@@ -1,11 +1,6 @@
 import { pathToRegexp } from "path-to-regexp";
-// const keys = [];
-// const result = pathToRegexp("/news/:id/:page/:class(\\d+)?", keys);
-// console.log(result)
-// console.log(keys)
-// /^\/news(?:\/([^\/#\?]+?))(?:\/([^\/#\?]+?))[\/#\?]?$/i
-// console.log(result.exec('/news/123/ae/1'));
-// console.log(result);
+
+
 /**
  * 得到匹配结果 match对象
  * 不匹配返回undefined
@@ -23,11 +18,11 @@ export default function matchPath(path, pathname, options) {
   const execArr = Array.from(result.slice(1));
   const params = getParams(execArr, keys);
 
-  console.log("regexp", regexp);
-  console.log("result", result);
-  console.log("keys", keys);
-  console.log("execArr", execArr);
-  console.log("params", params);
+  // console.log("regexp", regexp);
+  // console.log("result", result);
+  // console.log("keys", keys);
+  // console.log("execArr", execArr);
+  // console.log("params", params);
   return {
     path,
     params,
@@ -35,7 +30,6 @@ export default function matchPath(path, pathname, options) {
     isExact: pathname === result[0]
 
   }
-  // return result;
 }
 
 /**
@@ -70,10 +64,3 @@ function getOptions(options) {
     end: opts.exact       // 匹配到结尾
   }
 }
-let last = matchPath("/news/:page/:id", "/news/wer/123", { sensitive: true });
-console.log('last',last);
-console.log("----------------------------------------");
-last = matchPath("/news", "/news/dase/ewewa");
-// matchPath("/news", "/news/dase/ewewa", {exact: true});
-console.log('last',last);
-

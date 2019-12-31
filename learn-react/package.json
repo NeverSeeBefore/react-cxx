@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "animate.css": "^3.7.2",
+    "history": "^4.10.1",
     "path-to-regexp": "^6.1.0",
     "query-string": "^6.9.0",
     "react": "^16.11.0",
