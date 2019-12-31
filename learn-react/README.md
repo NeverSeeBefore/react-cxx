@@ -18,3 +18,23 @@ action reducer store
 
 后来发现MVC不适合前端c太复杂
 flux为什么会产生，就是为了解决前端的复杂度
+
+
+## action
+1. 必须是一个 plain-object(平面对象)
+  - 它的__proto__必须只想Object.protoType
+2. 必须有type属性
+  - 改属性用于描述操作类型
+  - 为了避免 hard code, 会将action的类型存到一个单独的文件中
+3. 为方便action传递，通常使用action创建函数传递生成action
+  - action创建函数应为无任何副作用的纯函数
+4. 利用action创建函数，触发分发函数
+  - redux 提供了bindActionCreators
+  - 传入(action创建函数，store的分发函数)
+  - 返回值是与action创建函数绑定的函数
+  - 每次调用新的创建函数时，会自动触发分发
+
+*hard code*
+> 很多地方要修改某个数据，所以都要传入action="update",当action可能要改变的时候，此时每个地方都要改变
+> 解决方式，额外一个文件计入action的type，每次改变只要修改这个文件就能改变所有的action
+
