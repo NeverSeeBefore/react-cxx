@@ -1,51 +1,14 @@
-// import { createStore, bindActionCreators, applyMiddleware } from "redux";
+import { createStore, bindActionCreators, applyMiddleware } from "redux";
 import * as numberActions from "./action/number-action";
 import reducer from './reducer';
-import { createStore, bindActionCreators, applyMiddleware } from "../redux";
-import compose from "../redux/compose";
+// import { createStore, bindActionCreators, applyMiddleware } from "../redux";
+import { logger, createLogger } from "redux-logger";
 
-// compose
+const loggerWithOptions = createLogger({
+  
+})
 
-
-/**
- * 中间件函数
- * @param {*} state 
- */
-function loggerMiddleWare(state){
-  console.log("applyMiddleware1")
-
-  return function (next) {
-    // next 为 (old)ispatch 函数
-
-    // 返回最终的dispatch函数
-    return function (action){
-      console.log('1oldState: ', state.getState())
-      next(action);
-      console.log('1newState: ', state.getState())
-
-    };
-  }
-}
-function loggerMiddleWare2(state){
-  console.log("applyMiddleware2")
-
-  // 返回最终的dispatch函数
-  return function (next) {
-
-
-    // 返回最终的dispatch函数
-    return function (action){
-      console.log('2oldState: ', state.getState())
-      next(action);
-      console.log('2newState: ', state.getState())
-
-    };
-
-  }
-}
-
-// const store = createStore(reducer);
-const store = createStore(reducer, applyMiddleware(loggerMiddleWare, loggerMiddleWare2));
+const store = createStore(reducer, applyMiddleware(logger, loggerWithOptions));
 
 store.subscribe(() => {
   // 输出之前的状态，新的状态，
