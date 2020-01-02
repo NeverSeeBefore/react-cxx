@@ -5,6 +5,6 @@ import App from "./App";
 // import "./react-router/browserHistory";
 // import "./react-router/hashHistory";
 // import "./react-router/histroy";
-import "./redux/index";
+import "./store/index";
 
 ReactDOM.render(<App />, document.getElementById("root"));

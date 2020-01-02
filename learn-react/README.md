@@ -76,3 +76,8 @@ Reducer 时改变数据的函数
       * 监听器是一个无参函数，在dispatch之后执行,
       * 该函数的返回值时一个取消监听函数
     - Symbal(ovservable): 内部调用
+
+
+# 源码
+
+## createStore
