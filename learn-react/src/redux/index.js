@@ -1,17 +1,20 @@
 import { createStore, bindActionCreators } from "redux";
-import * as numberActions from "./number-action";
+import * as numberActions from "./action/number-action";
 import reducer from './reducer';
 
 const store = createStore(reducer);
+store.subscribe(() => {
+  console.log('subscribe监听');
+  console.log(store.getState());
+})
 
-// console.log(store.getState());
-
-// // 第一个参数，action产检函数， 第二个参数store的分发函数
-// const bindActions = bindActionCreators(numberActions, store.dispatch);
+// // 第一个参数，action产生函数， 第二个参数store的分发函数
+const bindActions = bindActionCreators(numberActions, store.dispatch);
 // console.log(bindActions, numberActions);
 // // 创建action并直接自动分发；
-// bindActions.getDecreaseAction();
-// console.log(bindActions, numberActions);
+bindActions.getDecreaseAction();
+bindActions.getIncreaseAction();
+
 
 // store.dispatch(numberActions.getDecreaseAction());
 

@@ -7,11 +7,11 @@ import * as actionType from '../action/action-type';
  *
  * 返回新的状态；
  */
-function reducer(state, action) {
-  switch(actionType){
+function reducer(state = 10, action) {
+  switch(action.type){
     case actionType.INCREASE: 
       return state + 1;
-    case action.type === actionType.DECREASE: 
+    case actionType.DECREASE: 
       return state - 1;
     case actionType.SET:
       return action.payload;

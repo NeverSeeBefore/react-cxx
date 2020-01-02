@@ -62,4 +62,17 @@ Reducer 时改变数据的函数
     Reducer1,
     Reducer2
   })
-  合并reducer，得到新的reducer。这个新的reducer管理一个对象，将
+  合并reducer，得到新的reducer。这个新的reducer管理一个对象，
+
+
+## store
+  用于保存数据
+  const store = createStore(reducer)
+  store对象的成员
+    - dispatch: 分发action
+    - getState: 得到当前仓库的状态
+    - replaceReducer: 替换当前的reducer
+    - subscribe: 注册一个监听器（可以注册多个监听），
+      * 监听器是一个无参函数，在dispatch之后执行,
+      * 该函数的返回值时一个取消监听函数
+    - Symbal(ovservable): 内部调用
