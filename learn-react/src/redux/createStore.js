@@ -3,7 +3,17 @@
  * @param {function} reducer reducer
  * @param {any} defaultState 默认状态
  */
-export default function createStore(reducer, defaultState) {
+export default function createStore(reducer, defaultState, enhanced) {
+  
+  if(typeof defaultState === 'function'){
+    enhanced = defaultState;
+    defaultState = undefined;
+  }
+
+  if(typeof enhanced === 'function'){
+    return enhanced(createStore)(reducer, defaultState);
+  }
+
   let currentReducer = reducer,
     currentState = defaultState;
   let listeners = [];

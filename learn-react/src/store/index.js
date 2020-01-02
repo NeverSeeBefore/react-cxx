@@ -1,8 +1,10 @@
-// import { createStore, bindActionCreators } from "redux";
+// import { createStore, bindActionCreators, applyMiddleware } from "redux";
 import * as numberActions from "./action/number-action";
 import reducer from './reducer';
-import { createStore, bindActionCreators, applyMiddleware } from "redux";
-// const store = createStore(reducer);
+import { createStore, bindActionCreators, applyMiddleware } from "../redux";
+import compose from "../redux/compose";
+
+// compose
 
 
 /**
@@ -41,6 +43,8 @@ function loggerMiddleWare2(state){
 
   }
 }
+
+// const store = createStore(reducer);
 const store = createStore(reducer, applyMiddleware(loggerMiddleWare, loggerMiddleWare2));
 
 store.subscribe(() => {
