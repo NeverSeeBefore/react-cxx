@@ -38,8 +38,10 @@ export default function createStore(reducer, defaultState) {
   function subscribe(listener) {
     listeners.push(listener);
     return function() {
-      listeners = listeners.filter( it => it === listener);
-    }
+      listeners = listeners.filter(it => {
+        return it !== listener;
+      });
+    };
   }
 
   function replaceReducer() {}
