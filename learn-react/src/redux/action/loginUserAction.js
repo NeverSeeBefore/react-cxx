@@ -9,7 +9,6 @@ function getAddUserAction(user) {
   };
 }
 
-
 function getUpdateUserAction(id, newUserData) {
   return {
     type: UPDATEUSER,
@@ -20,11 +19,11 @@ function getUpdateUserAction(id, newUserData) {
   };
 }
 
-function getSDeteteUserAction(id) {
+function getDeteteUserAction(id) {
   return {
     type: DELETEUSER,
     payload: id
   };
 }
 
-export { SETLOGINUSER };
+export { getAddUserAction, getUpdateUserAction, getDeteteUserAction };

@@ -1,9 +1,11 @@
-import {SETLOGINUSER} from '../action/loginUserAction'
+import {SETLOGINUSER, ADDUSER} from '../action/loginUserAction'
+
+
 
 
 export default function (state = null, {type, payload}) {
     switch(type){
-      case SETLOGINUSER: 
+      case ADDUSER: 
         return payload
       default:
         return state;
