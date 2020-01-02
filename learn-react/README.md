@@ -59,25 +59,43 @@ Reducer 时改变数据的函数
 3. 在大中型项目中，操作比较复杂，因此应对 Reducer 进行细分。
 
 - combineReducers({
-    Reducer1,
-    Reducer2
+  Reducer1,
+  Reducer2
   })
-  合并reducer，得到新的reducer。这个新的reducer管理一个对象，
-
+  合并 reducer，得到新的 reducer。这个新的 reducer 管理一个对象，
 
 ## store
-  用于保存数据
-  const store = createStore(reducer)
-  store对象的成员
-    - dispatch: 分发action
-    - getState: 得到当前仓库的状态
-    - replaceReducer: 替换当前的reducer
-    - subscribe: 注册一个监听器（可以注册多个监听），
-      * 监听器是一个无参函数，在dispatch之后执行,
-      * 该函数的返回值时一个取消监听函数
-    - Symbal(ovservable): 内部调用
 
+用于保存数据
+const store = createStore(reducer)
+store 对象的成员 - dispatch: 分发 action - getState: 得到当前仓库的状态 - replaceReducer: 替换当前的 reducer - subscribe: 注册一个监听器（可以注册多个监听），
+_ 监听器是一个无参函数，在 dispatch 之后执行,
+_ 该函数的返回值时一个取消监听函数 - Symbal(ovservable): 内部调用
 
 # 源码
 
 ## createStore
+
+# 中间件
+
+类似于插件，可以在不影响原本功能，并且不改动原本代码的基础上，对其功能进行增强;
+redux 中，主要用于增强 dispatch 函数
+
+原理： 更改 dispatch 函数
+中间见本身是一个函数，该函数接收一个 store 参数，表示创建的仓库，该仓库并非一个完整的仓库对象，仅包含 getstate，dispatch
+运行时间： 在仓库创建之后 - 需要在创建仓库时，告知有哪些中间件要运行 applyMiddleware(中间件)
+
+- 必须返回 dispatch 创建函数
+
+  function middleware () {
+
+    return function (next) {
+      return function(action){
+        // ..变化前
+        next(action);
+        // ..变化后
+      }
+    }
+  }
+
+  - applyMiddleware 记录所有的中间件

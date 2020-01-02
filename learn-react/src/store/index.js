@@ -1,52 +1,69 @@
 // import { createStore, bindActionCreators } from "redux";
 import * as numberActions from "./action/number-action";
 import reducer from './reducer';
-import { createStore, bindActionCreators } from "../redux";
-
+import { createStore, bindActionCreators, applyMiddleware } from "redux";
 // const store = createStore(reducer);
-const store = createStore(reducer);
 
-const unlisten0 = store.subscribe(() => {
-  console.log('subscribe监听0');
+
+/**
+ * 中间件函数
+ * @param {*} state 
+ */
+function loggerMiddleWare(state){
+  console.log("applyMiddleware1")
+
+  return function (next) {
+    // next 为 (old)ispatch 函数
+
+    // 返回最终的dispatch函数
+    return function (action){
+      console.log('1oldState: ', state.getState())
+      next(action);
+      console.log('1newState: ', state.getState())
+
+    };
+  }
+}
+function loggerMiddleWare2(state){
+  console.log("applyMiddleware2")
+
+  // 返回最终的dispatch函数
+  return function (next) {
+
+
+    // 返回最终的dispatch函数
+    return function (action){
+      console.log('2oldState: ', state.getState())
+      next(action);
+      console.log('2newState: ', state.getState())
+
+    };
+
+  }
+}
+const store = createStore(reducer, applyMiddleware(loggerMiddleWare, loggerMiddleWare2));
+
+store.subscribe(() => {
+  // 输出之前的状态，新的状态，
+  console.log('subscribe监听');
   console.log(store.getState());
 })
 
-const unlisten1 = store.subscribe(() => {
-  console.log('subscribe监听1');
-  console.log(store.getState());
-})
-const unlisten2 = store.subscribe(() => {
-  console.log('subscribe监听2');
-  console.log(store.getState());
-})
 // // 第一个参数，action产生函数， 第二个参数store的分发函数
 const bindActions = bindActionCreators(numberActions, store.dispatch);
-console.log(bindActions, numberActions);
+// console.log(bindActions, numberActions);
 // 创建action并直接自动分发；
 bindActions.getDecreaseAction();
-unlisten2();
-unlisten1();
-bindActions.getIncreaseAction();
-
-console.log(store.getState());
-
-store.dispatch(numberActions.getDecreaseAction());
-
-// console.log(store.getState());
-
-store.dispatch(numberActions.getIncreaseAction());
-
-// console.log(store.getState());
-
-// store.dispatch(numberActions.getSetAction(100));
-
-// console.log(store.getState());
-
-// store.dispatch({ type: "dessssss" });
-
-// console.log(store.getState());
 
 bindActions.getIncreaseAction();
-bindActions.getIncreaseAction();
 
-bindActions.getIncreaseAction();
+// function middleware () {
+
+//   return function (next) {
+//     return function(action){
+//       // ..变化前
+//       next(action);
+//       // ..变化后
+//     }
+//   }
+// }
