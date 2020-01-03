@@ -1,4 +1,9 @@
-import * as actionType from '../action/action-type';
+import * as actionType from "../action/action-type";
+
+const initialState = {
+  isLoading: false,
+  number: 0
+};
 /**
  * reducer本质上就是一个函数
  *
@@ -7,15 +12,18 @@ import * as actionType from '../action/action-type';
  *
  * 返回新的状态；
  */
-function reducer(state = 10, action) {
-  switch(action.type){
-    case actionType.INCREASE: 
-      return state + 1;
-    case actionType.DECREASE: 
-      return state - 1;
+
+function reducer(state = initialState, { type, payload }) {
+  switch (type) {
+    case actionType.INCREASE:
+      return { ...state, number: state.number + 1 };
+    case actionType.DECREASE:
+      return { ...state, number: state.number - 1 };
     case actionType.SET:
-      return action.payload;
-    default: 
+      return { ...state, number: payload };
+    case actionType.SETLOADING:
+      return { ...state, isLoading: payload };
+    default:
       return state;
   }
 }
