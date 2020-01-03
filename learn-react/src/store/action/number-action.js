@@ -28,22 +28,19 @@ function getSetLoading(payload) {
 // thunk 允许action是一个由副作用的函数
 function fetchNumber() {
   return async function(dispatch) {
-    
-    dispatch(getSetLoading(true))
+    dispatch(getSetLoading(true));
     // 获取number
     const num = await new Promise(reslove => {
       setTimeout(() => {
         reslove(999);
       }, 2000);
     }).then(num => {
-      console.log(num);
       return num;
     });
     // console.log('outside', num);
-    
-    dispatch(getSetAction(num))
-    dispatch(getSetLoading(false))
-    
+
+    dispatch(getSetAction(num));
+    dispatch(getSetLoading(false));
   };
 }
 export {

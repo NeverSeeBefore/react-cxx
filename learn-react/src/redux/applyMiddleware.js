@@ -12,12 +12,12 @@ export default function applyMiddleware(...args) {
     // 创建仓库 (reducer, defaultState?)
     return function(reducer, defaultState) {
       const store = createStore(reducer, defaultState);
-      const simpleStore = {
-        getState: store.getState,
-        dispatch: store.dispatch
-      };
       let dispatch = () => {
         throw new Error("目前不能使用dispath");
+      };
+      const simpleStore = {
+        getState: store.getState,
+        dispatch: (...args) => dispatch(...args)
       };
       let dispatchCreators = args.map(fun => fun(simpleStore));
       dispatch = compose(...dispatchCreators)(store.dispatch);

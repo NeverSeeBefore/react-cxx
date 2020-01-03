@@ -1,15 +1,16 @@
 import { createStore, bindActionCreators, applyMiddleware } from "redux";
 import * as numberActions from "./action/number-action";
 import reducer from "./reducer";
-// import { createStore, bindActionCreators, applyMiddleware } from "../redux";
 import { createLogger } from "redux-logger";
-import thunk from "redux-thunk";
+// import thunk from "redux-thunk";
+// import { createStore, bindActionCreators, applyMiddleware } from "../redux";
+import thunk from "../redux-thunk";
 
 const loggerWithOptions = createLogger({
   collapsed: true
 });
 
-const store = createStore(reducer, applyMiddleware(thunk, loggerWithOptions));
+const store = createStore(reducer, applyMiddleware( thunk, loggerWithOptions));
 
 const unlisten = store.subscribe(() => {
   // 输出之前的状态，新的状态，
