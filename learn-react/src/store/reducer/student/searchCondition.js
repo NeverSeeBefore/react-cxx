@@ -1,7 +1,7 @@
 import { actionTypes } from "../../action/student/searchCondition";
 
 const initialState = {
-  key: "",
+  keys: "",
   sex: -1,
   page: 1,
   limit: 10

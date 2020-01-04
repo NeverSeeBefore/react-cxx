@@ -10,5 +10,5 @@ const studentReducer = combineReducers({
 
 // 最终的reducer
 export default combineReducers({
-  studentReducer
+  students: studentReducer
 })
