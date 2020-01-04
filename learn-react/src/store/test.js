@@ -3,7 +3,8 @@ import { createChangeAction } from "./action/student/searchCondition";
 import {
   setIsLoadingAction,
   setStudentAndTotalAction,
-  fetchStudents
+  fetchStudents,
+  fetchStudentsPromise
 } from "./action/student/searchResult";
 
 
@@ -24,4 +25,5 @@ import {
 //     total: 1
 //   })
 // );
-store.dispatch(fetchStudents());
+store.dispatch(fetchStudentsPromise());
+// store.dispatch(fetchStudents());
