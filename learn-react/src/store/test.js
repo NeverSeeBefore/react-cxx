@@ -1,19 +1,22 @@
-import store from './index';
+import store from "./index";
 import { createChangeAction } from "./action/student/searchCondition";
-import {
-  setIsLoadingAction,
-  setStudentAndTotalAction,
-  fetchStudents,
-  fetchStudentsPromise
-} from "./action/student/searchResult";
+import { getIncreaseAction, getDecreaseAction, getAsyncIncreaseAction, getAsyncDecreaseAction } from "./action/counter";
+
+store.dispatch(
+  createChangeAction({
+    key: "abc",
+    page: 10
+  })
+);
+store.dispatch(getAsyncIncreaseAction());
+// store.dispatch(getIncreaseAction());
+// store.dispatch(getAsyncIncreaseAction());
+// store.dispatch(getAsyncDecreaseAction());
+// store.dispatch(getAsyncDecreaseAction());
+// store.dispatch(getDecreaseAction());
 
 
-// store.dispatch(
-//   createChangeAction({
-//     key: "abc",
-//     page: 10
-//   })
-// );
+
 // store.dispatch(
 //   setIsLoadingAction({
 //     isLoading: true
@@ -25,5 +28,3 @@ import {
 //     total: 1
 //   })
 // );
-store.dispatch(fetchStudentsPromise());
-// store.dispatch(fetchStudents());

@@ -1,50 +1,59 @@
-## 解决副作用的 redux 中间件
+# redux-saga
 
-1. redux-thunk
-2. redux-promise
+**纯净** **强大** **灵活**
 
-   > 都需要改变 action，影响 action 或者 action 创建函数不在纯净
+- saga 是一个生成器函数
 
-3. redux-saga
+  > 在最开始的时候，启动一个 saga 任务。
+  > saga 任务： 生成器函数
+  > saga 为任务提供了大量功能以供使用，这些功能是以任务的形式出现的，而且出现在 yield 的位置，因此可以被 saga 中间件控制它的执行
 
-- 建立在 ES6 的生成器基础上，要熟练的使用 saga，必须理解*生成器*，(要理解生成器，需要理解迭代器和迭代协议)
+- 在 saga 任务中，如果 yield 一个普通数据，saga 不做任何处理，立即调用 next，并将数据传进去；
+- saga 要求： 在 yield 后边放上合适的 saga 指令， saga 会根据指令做出对应的处理；
 
-## 迭代
+### 指令
 
-类似遍历
-遍历： 集合数据结构，需要从中一次取数数据进行处理
-迭代： 按照某种逻辑，依次取出下一个数据进行处理
+- **take**: 监听某个 action，如果发生某个 action, 则会进行下一步处理._只发生一次_-_阻塞_
 
-## 迭代器
+- **all**: 参数为数组，各种生成器 ，saga 会等待所有生成器完成之后才会处理，_阻塞_
 
-如果一个对象具有*next*方法，并且 next 方法，满足一定的约束，
-next 方法必须具有两个属性，value（下一个数据），done（是否完成）；
+- **takeEvery**: 不断监听某个 action， 当 action 到达之后， 运行一个函数, 永远不会结束当前的生成器 _不阻塞_
 
-## 迭代器创建函数
+- **delay**: _阻塞_ 指定的毫秒数
 
-返回一个迭代器
+  - 参数（ms, ?return)
+  - 返回值 return ? return : true
 
-## 可迭代协议
+- **put**: 重新触发 action，相当于 dispatch(action)
 
-可迭代协议用于规范对象的
-[Symbol.iterator] 是一个迭代器创建函数
+- **call**: 用于副作用函数调用，通常是异步 _Promise 会阻塞(基本都是 Promise)_
 
-ES6 出现 for-of 循环，循环的对象必须是可迭代的
-for-of 原理： 调用[Symbol.iterator]生成一个迭代器，不断调用 next 方法，返回 value 值
+  - const resp = yield promiseFun();
+  - 当 saga 发现 yield 一个 Promise, 会等待 Promise 返回值，将其传入 next
+  - 如果 promise 被拒绝, 会把 reject 的 内容抛出;
+  - 为了方便测试 和 风格的统一 ，使用 _call( promiseFun , canshu1, canshu2...)_
+  - 绑定 this 时
+    - _yield call( [ abc ,promiseFun ] , canshu1, canshu2...)_
+    - _yield call( { context: abc, fn: promiseFun } , canshu1, canshu2...)_
 
-# 生成器
+- **apply**: 同 call
 
-## generator
+  - _yield apply( context, promiseFun, [canshu1, canshu2...] )_
 
-生成器： 由构造函数*Generator*创建的对象，该对象即是一个*迭代器*， 同时又是一个*可迭代对象*
-**Generator**构造函数，不供开发者使用，仅供 js 引擎内部使用
+- **cps**: 回调模式 _阻塞_
 
-ES6 新增特殊函数，叫做生成器函数
-_js function\* name() {}_
-调用后一定得到生成器
+  - _yield( 函数， 参数)_
+  - saga 会在最后传入一个回调, 回调执行之后, 才会继续向下走;
 
-生成器函数的特点：
-  1. 调用生成器函数，不会执行函数体代码，而是返回一个生成器
-  2. 每当调用了生成器的next方法，生成器的函数体，会从上一个yield位置，执行到下一个yield
-    - yield 的返回结果，是next的参数
-    - yield* func() 的返回结果， 是后边函数运行的结果
+- **select**: 用于得到当前仓库的数据
+
+  - _yield select()_ 不传参，得到所有数据
+  - _yield select(state => state.student.condition)_ 传入函数，得到特定的数据
+
+- **fork**: 创建一个 Effect 描述信息，用来命令 middleware 以 _非阻塞_ 调用 的形式执行 fn
+
+- **cancel**:
+
+- **cancelled**:
+
+- **race**:
