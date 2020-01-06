@@ -59,17 +59,17 @@ function fetchStudents() {
  * 触发action，需要使用reslove
  */
 //  1 action 是一个 promise
-function fetchStudentsPromise() {
-  return new Promise((reslove, reject) => {
-    setTimeout(() => {
-      const action = setStudentAndTotalAction({
-        student: [{ a: "aaa", b: "bbb" }],
-        total: 1
-      });
-      reslove(action);
-    }, 3000);
-  });
-}
+// function fetchStudentsPromise() {
+//   return new Promise((reslove, reject) => {
+//     setTimeout(() => {
+//       const action = setStudentAndTotalAction({
+//         student: [{ a: "aaa", b: "bbb" }],
+//         total: 1
+//       });
+//       reslove(action);
+//     }, 3000);
+//   });
+// }
 //  2 : actionCreator 是一个 promise
 // async function fetchStudentsPromise(condition) {
 //   return await new Promise((reslove, reject) => {
@@ -83,22 +83,21 @@ function fetchStudentsPromise() {
 //   });
 // }
 //  3 : payload 是 promise
-// function fetchStudentsPromise() {
-//   return {
-//     type: actionTypes.setStudentAndTotal,
-//     payload: new Promise((reslove, reject) => {
-//       setTimeout(() => {
-//         const condition = getState().students.searchCondition;
-//         reslove(getStudentList({ condition }));
-//       }, 3000);
-//     }).then(res => {
-//       return {
-//         student: [{ a: "aaa", b: "bbb" }],
-//         total: 1
-//       };
-//     })
-//   };
-// }
+function fetchStudentsPromise() {
+  return {
+    type: actionTypes.setStudentAndTotal,
+    payload: new Promise((reslove, reject) => {
+      setTimeout(() => {
+        // const condition = getState().students.searchCondition;
+        // reslove(getStudentList({ condition }));
+        reslove({
+          student: [{ a: "aaa", b: "bbb" }],
+          total: 1
+        });
+      }, 3000);
+    })
+  };
+}
 
 export {
   actionTypes,

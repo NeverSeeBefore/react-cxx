@@ -18,7 +18,6 @@ export default function(state = initialState, action) {
         isLoading: action.payload
       };
     case actionTypes.setStudentAndTotal:
-      console.log(action);
       return {
         ...state,
         ...action.payload

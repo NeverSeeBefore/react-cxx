@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "is-promise": "^2.1.0",
     "lodash": "^4.17.15",
     "query-string": "^6.9.0",
     "react": "^16.11.0",
