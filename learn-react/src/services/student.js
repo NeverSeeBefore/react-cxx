@@ -51,7 +51,7 @@ export function getStudentList({
   let total = studnetList.length;
   let data = [];
   let msg = 'success';
-  if (sex == -1) {
+  if (sex === -1) {
     data = studnetList.slice((page - 1) * limit, page * limit);
   } else {
     let xingbie = "";
@@ -66,7 +66,7 @@ export function getStudentList({
     }
     let i = 0;
     while (i < studnetList.length) {
-      if (studnetList[i].sex == xingbie) {
+      if (studnetList[i].sex === xingbie) {
         total++;
         if (data.length < limit && total > (page - 1) * limit) {
           data.push(studnetList[i]);

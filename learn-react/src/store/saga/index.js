@@ -1,5 +1,4 @@
-import { take, all } from "redux-saga/effects";
-import { actionTypes } from "../action/counter";
+import { all } from "redux-saga/effects";
 
 import counterTask from "./counterTask";
 import studentTask from "./studentTask";

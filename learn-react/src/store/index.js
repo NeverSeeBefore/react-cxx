@@ -5,7 +5,7 @@ import createSagaMiddleware from "redux-saga";
 import rootSaga from "./saga";
 
 const logger = createLogger({
-  collapsed: true
+  collapsed: false
 });
 
 // 创建一个saga中间件

@@ -19,6 +19,11 @@
 
 - **takeEvery**: 不断监听某个 action， 当 action 到达之后， 运行一个函数, 永远不会结束当前的生成器 _不阻塞_
 
+  - 返回值 这条任务线，可通过 cancel 取消
+  - 利用 fork 实现的
+
+- **takeLatest**: 与 takeEvery 一致, 但是重复调用，会取消掉之前的任务；
+
 - **delay**: _阻塞_ 指定的毫秒数
 
   - 参数（ms, ?return)
@@ -52,8 +57,48 @@
 
 - **fork**: 创建一个 Effect 描述信息，用来命令 middleware 以 _非阻塞_ 调用 的形式执行 fn
 
-- **cancel**:
+  - 返回 一个任务对象 TASK
 
-- **cancelled**:
+- **cancel**: 用于取消一个或多个任务
 
-- **race**:
+  - 参数 无参时取消自己，有任务参时，取消任务
+
+- **cancelled**: 判断是否被取消
+  - 返回值 true | false
+
+- **race**: 传递多个指令， 当其中任何一个指令结束后，会直接结束
+  - 参数： 对象
+  - race({
+      action1: call(action)
+      action2: call(action)
+      action3: call(action)
+    })
+
+```js
+/**
+ * 流程控制
+ *  监听增加 ---》 自动增加 --》 监听停止 ---- 停止 ---》 监听增加。。。
+ */
+function* autoTask() {
+  while (true) {
+    // 监听 autoIncrease
+    yield take(actionTypes.autoIncrease);
+    // 开启新任务
+    const task = yield fork(function*() {
+      // 每隔两秒增加一次
+      try {
+        while (true) {
+          yield delay(2000);
+          yield put(getIncreaseAction());
+        }
+      } finally {  // finally 无论如何都会被执行
+        if(yield cancelled()){
+          console.log("任务被取消");
+        }
+      }
+    });
+    yield take(actionTypes.stopAutoIncrease);
+    yield cancel(task);
+  }
+}
+```
