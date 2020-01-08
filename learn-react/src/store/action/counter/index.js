@@ -1,40 +1,57 @@
+import { createActions, handleActions, combineActions } from "redux-actions";
 export const actionTypes = {
-  increase: Symbol("increase"),
-  asyncIncrease: Symbol("asyncIncrease"),
-  decrease: Symbol("decrease"),
-  asyncDecrease: Symbol("asyncDecrease"),
-  autoIncrease: Symbol("autoIncrease"),
-  stopAutoIncrease: Symbol("stopAutoIncrease"),
-}
+  increase: "INCREASE",
+  asyncIncrease: "ASYN_CINCREASE",
+  decrease: "DECREASE",
+  asyncDecrease: "ASYNC_DECREASE",
+  autoIncrease: "AUTO_INCREASE",
+  stopAutoIncrease: "STOP_AUTO_INCREASE",
+  add: "ADD"
+};
+// createAction
+// export const getIncreaseAction = createAction(actionTypes.increase);
+// createActions
+// export const add = createAction(actionTypes.add, number => number);
 
-export function getIncreaseAction() {
-  return {
-    type: actionTypes.increase
-  }
-}
-export function getDecreaseAction() {
-  return {
-    type: actionTypes.decrease
-  }
-}
-export function getAsyncIncreaseAction() {
-  return {
-    type: actionTypes.asyncIncrease
-  }
-}
-export function getAsyncDecreaseAction() {
-  return {
-    type: actionTypes.asyncDecrease
-  }
-}
+export const {
+  increase,
+  decrease,
+  asyncIncrease,
+  asyncDecrease,
+  autoIncrease,
+  stopAutoIncrease,
+  add
+} = createActions({
+  [actionTypes.increase]: () => 1,
+  [actionTypes.decrease]: () => -1,
+  [actionTypes.asyncIncrease]: null,
+  [actionTypes.asyncDecrease]: null,
+  [actionTypes.autoIncrease]: null,
+  [actionTypes.stopAutoIncrease]: null,
+  [actionTypes.add]: number => number
+});
+// console.log(increase.toString());
 
-export function getAutoIncreaseAction() {
-  return {
-    type: actionTypes.autoIncrease
-  }
-}
-export function getStopAutoIncreaseAction() {
-  return {
-    type: actionTypes.stopAutoIncrease
-  }
+export default handleActions(
+  {
+    [combineActions(increase, decrease, add)]: (state, action) => state + action.payload,
+    [asyncIncrease]: state => state + 1,
+    [asyncDecrease]: state => state - 1
+  },
+  10
+);
+
+/**
+ *
+ * @param {*} type
+ */
+function myCreateAction(type, payloadCreator) {
+  return function actionCreator(...args) {
+    if (typeof payloadCreator === "function") {
+      const payload = payloadCreator(...args);
+      return { type, payload };
+    } else {
+      return { type };
+    }
+  };
 }

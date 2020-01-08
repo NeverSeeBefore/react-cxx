@@ -1,6 +1,5 @@
 import {
   take,
-  takeEvery,
   takeLatest,
   delay,
   put,
@@ -8,11 +7,7 @@ import {
   cancel,
   race
 } from "redux-saga/effects";
-import {
-  actionTypes,
-  getIncreaseAction,
-  getDecreaseAction
-} from "../action/counter";
+import { actionTypes, increase, decrease } from "../action/counter";
 
 function myTakeEvery(actionType, saga) {
   return fork(function*() {
@@ -26,7 +21,7 @@ function myTakeEvery(actionType, saga) {
 function* counterAsyncIncreaseTask() {
   // 延迟2s执行
   yield delay(2000);
-  yield put(getIncreaseAction());
+  yield put(increase());
   console.log("counterTask");
 }
 function* counterAsyncDecreaseTask() {
@@ -40,7 +35,7 @@ function* counterAsyncDecreaseTask() {
     }
     task = yield fork(function*() {
       yield delay(2000);
-      yield put(getDecreaseAction());
+      yield put(decrease());
       console.log("counterTask");
     });
     console.log("counterTask");
@@ -60,7 +55,7 @@ function* autoIncreaseTask() {
     task = yield fork(function*() {
       while (true) {
         yield delay(1000);
-        yield put(getIncreaseAction());
+        yield put(increase());
       }
     });
     console.log("autoIncreaseTask done");
@@ -71,35 +66,33 @@ let isStop = false;
 function* autoIncrease() {
   isStop = false;
   while (true) {
-    if(isStop){
+    if (isStop) {
       break;
     }
     yield delay(1000);
-    yield put(getIncreaseAction());
+    yield put(increase());
   }
 }
-function stopAutoIncrease(){
+function stopAutoIncrease() {
   isStop = true;
 }
-
-
 
 /**
  * 流程控制
  *  监听增加 ---》 自动增加 --》 监听停止 ---- 停止 ---》 监听增加。。。
  */
 function* autoTask() {
-  while(true){
+  while (true) {
     // 监听 autoIncrease
-    yield take(actionTypes.autoIncrease)
+    yield take(actionTypes.autoIncrease);
     // 开启新任务
-    const task = yield fork(function* () {
+    const task = yield fork(function*() {
       // 每隔两秒增加一次
-      while(true){
-        yield delay(2000);
-        yield put(getIncreaseAction());
+      while (true) {
+        yield delay(1000);
+        yield put(increase());
       }
-    })
+    });
     yield take(actionTypes.stopAutoIncrease);
     yield cancel(task);
   }
@@ -107,24 +100,23 @@ function* autoTask() {
 /**
  * 另一种实现方式
  */
-function* autoRace(){
-  while(true){
+function* autoRace() {
+  while (true) {
     // 监听 autoIncrease
-    yield take(actionTypes.autoIncrease)
+    yield take(actionTypes.autoIncrease);
     // 开启新任务
     yield race({
-      autoIncrease: function* () {
+      autoIncrease: function*() {
         // 每隔两秒增加一次
-        while(true){
+        while (true) {
           yield delay(2000);
-          yield put(getIncreaseAction());
+          yield put(increase());
         }
       },
       cancel: take(actionTypes.stopAutoIncrease)
-    })
+    });
   }
 }
-
 
 // counter task
 export default function*() {
@@ -137,10 +129,8 @@ export default function*() {
   // result = yield takeEvery(actionTypes.asyncDecrease, counterAsyncDecreaseTask);
 
   // yield fork(autoIncreaseTask);
-  yield takeLatest(actionTypes.stopAutoIncrease, stopAutoIncrease);
-  yield takeLatest(actionTypes.autoIncrease, autoIncrease);
+  // yield takeLatest(actionTypes.stopAutoIncrease, stopAutoIncrease);
+  // yield takeLatest(actionTypes.autoIncrease, autoIncrease);
   yield fork(autoTask);
   console.log("counter main done");
-
-
 }

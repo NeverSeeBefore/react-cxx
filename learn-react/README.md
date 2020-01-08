@@ -1,104 +1,78 @@
-# redux-saga
+## redux-actions
 
-**纯净** **强大** **灵活**
+用于简化 actionTypes, actionCreator 以及 reducer
+redux-actions.js.org
 
-- saga 是一个生成器函数
+## createAction
 
-  > 在最开始的时候，启动一个 saga 任务。
-  > saga 任务： 生成器函数
-  > saga 为任务提供了大量功能以供使用，这些功能是以任务的形式出现的，而且出现在 yield 的位置，因此可以被 saga 中间件控制它的执行
+帮助创建一个 action 创建函数(action-creator)
 
-- 在 saga 任务中，如果 yield 一个普通数据，saga 不做任何处理，立即调用 next，并将数据传进去；
-- saga 要求： 在 yield 后边放上合适的 saga 指令， saga 会根据指令做出对应的处理；
+- 参数： action-type ?payloadCreator[function][返回payload] meta[function][返回meta]
+- 返回值： action-creator
 
-### 指令
+## createActions
 
-- **take**: 监听某个 action，如果发生某个 action, 则会进行下一步处理._只发生一次_-_阻塞_
+创建多个 action 创建函数(action-creator)
 
-- **all**: 参数为数组，各种生成器 ，saga 会等待所有生成器完成之后才会处理，_阻塞_
+- 参数
+  - action-map  
+     {
+    actionType: null,
+    actionType: payloadCreators,
+    }
+- 返回值 _属性名 会变成 action-creator 的名称， 属性值 会变成 payload-creator_
+- 返回的 action-creator 的 toString 方法 会被重写，调用时返回 action-type
 
-- **takeEvery**: 不断监听某个 action， 当 action 到达之后， 运行一个函数, 永远不会结束当前的生成器 _不阻塞_
+## handleAction
 
-  - 返回值 这条任务线，可通过 cancel 取消
-  - 利用 fork 实现的
+简化针对单个 action 类型的 reducer 处理
 
-- **takeLatest**: 与 takeEvery 一致, 但是重复调用，会取消掉之前的任务；
+- 参数
 
-- **delay**: _阻塞_ 指定的毫秒数
+  - action-type action 类型[string|如果 action-creator 是用 creationAction(s)创建的，可以传入 action 创建函数]
+  - action-handle 处理函数[(state, action) => {//...}]
+  - initialState 初始值
 
-  - 参数（ms, ?return)
-  - 返回值 return ? return : true
+- 返回值 reducer
 
-- **put**: 重新触发 action，相当于 dispatch(action)
+## handleActions
 
-- **call**: 用于副作用函数调用，通常是异步 _Promise 会阻塞(基本都是 Promise)_
+简化针对多个 action 类型的 reducer 处理
 
-  - const resp = yield promiseFun();
-  - 当 saga 发现 yield 一个 Promise, 会等待 Promise 返回值，将其传入 next
-  - 如果 promise 被拒绝, 会把 reject 的 内容抛出;
-  - 为了方便测试 和 风格的统一 ，使用 _call( promiseFun , canshu1, canshu2...)_
-  - 绑定 this 时
-    - _yield call( [ abc ,promiseFun ] , canshu1, canshu2...)_
-    - _yield call( { context: abc, fn: promiseFun } , canshu1, canshu2...)_
+- 参数
+  - reducer-map
+    {
+    [actionType|creationAction(actionType)]: state => {return state},
+    [actionType|creationAction(actionType)]: (state, action) => {return state},
+    }
+  - initialState 初始值
 
-- **apply**: 同 call
+## combineActions
 
-  - _yield apply( context, promiseFun, [canshu1, canshu2...] )_
+配合 createActions 和 handleActions 两个函数, 用于处理多个 action-type, 对应相同的处理函数
 
-- **cps**: 回调模式 _阻塞_
+---
 
-  - _yield( 函数， 参数)_
-  - saga 会在最后传入一个回调, 回调执行之后, 才会继续向下走;
+createAction 必须传入的一个 actionType,
+如果传第二个参数，需要是一个可以生成 payload 的函数
+createActions 第一个参数 关于 actionType 和 payload 生成函数的映射对象
+这两个方法返回的是 action 创建函数，并且会重写 toString 方法，让 toString 的方法返回值为当前的 actionType
 
-- **select**: 用于得到当前仓库的数据
+---
 
-  - _yield select()_ 不传参，得到所有数据
-  - _yield select(state => state.student.condition)_ 传入函数，得到特定的数据
+handleAction 传入 actionType 、 对此 action 的处理函数、 仓库初始值， 返回的是一个 reducer 函数
+handleActions 传入的是一个关于 actionType 和 对应的处理函数, 返回的也是 reducer
+actionType 可以是一个 creatoAction(s)创建的函数，因为 _redux-actions 会自动调用 toString 方法_
 
-- **fork**: 创建一个 Effect 描述信息，用来命令 middleware 以 _非阻塞_ 调用 的形式执行 fn
+--- 
 
-  - 返回 一个任务对象 TASK
-
-- **cancel**: 用于取消一个或多个任务
-
-  - 参数 无参时取消自己，有任务参时，取消任务
-
-- **cancelled**: 判断是否被取消
-  - 返回值 true | false
-
-- **race**: 传递多个指令， 当其中任何一个指令结束后，会直接结束
-  - 参数： 对象
-  - race({
-      action1: call(action)
-      action2: call(action)
-      action3: call(action)
-    })
-
-```js
-/**
- * 流程控制
- *  监听增加 ---》 自动增加 --》 监听停止 ---- 停止 ---》 监听增加。。。
- */
-function* autoTask() {
-  while (true) {
-    // 监听 autoIncrease
-    yield take(actionTypes.autoIncrease);
-    // 开启新任务
-    const task = yield fork(function*() {
-      // 每隔两秒增加一次
-      try {
-        while (true) {
-          yield delay(2000);
-          yield put(getIncreaseAction());
-        }
-      } finally {  // finally 无论如何都会被执行
-        if(yield cancelled()){
-          console.log("任务被取消");
-        }
-      }
-    });
-    yield take(actionTypes.stopAutoIncrease);
-    yield cancel(task);
-  }
-}
-```
+最后的combineActions的作用， 出入的参数是actionType， 他们具有共同的特点，就是 _他们对应的reduce处理函数一样_ ，
+                          这种情况下, 通过conbineActions, 返回的是一个方法，是一个actionCreator函数，
+                          createActions({
+                            [combineActions(increase, decrease, add)]: (state, {payload}) => (state + payload)
+                          })
+                          这样， 只要是这几个actionType， 都会执行后边对应的处理函数
+                        
+**这个redux-actions 大大简化了些action， reducer的复杂度**
+**他只是简化了我们的写法，通过它，能做到我们按照整行的写法写的一样的效果**
+**它的底层还是相当于按照正常的写法写了一遍，我们省了了力气，是因为这个库帮我们做了我们没做的事**

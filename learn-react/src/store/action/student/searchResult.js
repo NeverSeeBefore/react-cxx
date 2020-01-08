@@ -1,35 +1,18 @@
-// import { getStudentList } from "../../../services/student";
-/**
- * 学生查询条件的action
- */
-const actionTypes = {
-  setStudentAndTotal: Symbol("setStudentAndTotal"),
-  setIsLoading: Symbol("setIsLoading")
-};
-/**
- * 根据查询条件返回action
- * @param {*} payload
- */
+import { createActions, handleActions } from "redux-actions";
 
-function setStudentAndTotalAction({ student, total }) {
-  return {
-    type: actionTypes.setStudentAndTotal,
-    payload: {
-      student,
-      total
-    }
-  };
-}
-function setIsLoadingAction(payload) {
-  return {
-    type: actionTypes.setIsLoading,
-    payload
-  };
-}
+export const { setStudentAndTotal, setIsLoading } = createActions({
+  SET_STUDENT_AND_TOTAL: ({ student, total }) => ({ student, total }),
+  SET_IS_LOADING: isLoading => isLoading
+});
 
-
-export {
-  actionTypes,
-  setStudentAndTotalAction,
-  setIsLoadingAction,
-};
+export default handleActions(
+  {
+    [setStudentAndTotal]: (state, { payload }) => ({ ...state, ...payload }),
+    [setIsLoading]: (state, { payload }) => ({ ...state, isLoading: payload })
+  },
+  {
+    total: 0,
+    isLoading: false,
+    student: []
+  }
+);
