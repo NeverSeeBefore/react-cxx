@@ -1,8 +1,9 @@
 import { createActions, handleActions } from "redux-actions";
 
-export const { setStudentAndTotal, setIsLoading } = createActions({
+export const { setStudentAndTotal, setIsLoading, fetchStudents } = createActions({
   SET_STUDENT_AND_TOTAL: ({ student, total }) => ({ student, total }),
-  SET_IS_LOADING: isLoading => isLoading
+  SET_IS_LOADING: isLoading => isLoading,
+  FETCH_STUDENTS: null,
 });
 
 export default handleActions(

@@ -1,9 +1,11 @@
 import React from "react";
 import "./App.scss";
 import "./util/util";
-import Counter from "./components/Counter";
 import { Provider } from "react-redux";
 import store from "./store";
+import Test from "./components/Layout/Test";
+import StudentSearch from "./components/Layout/components/StudentSearch"
+
 class App extends React.Component {
   state = {};
   componentDidMount() {}
@@ -12,7 +14,8 @@ class App extends React.Component {
     return (
       <Provider store={store}>
         <div className="App">
-          <Counter></Counter>
+          {/* <Test></Test> */}
+          <StudentSearch></StudentSearch>
         </div>
       </Provider>
     );

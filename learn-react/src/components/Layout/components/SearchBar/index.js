@@ -4,7 +4,7 @@ import "./index.css";
 class SearchBar extends PureComponent {
   constructor(props) {
     super(props);
-    // console.log("props", props);
+    console.log("props", props);
     this.state = { defaultValue: props.defaultValue };
   }
   
