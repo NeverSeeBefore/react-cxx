@@ -1,81 +1,75 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { change as changeCondition } from "../../../../../store/action/student/searchCondition";
+import { fetchStudents } from "../../../../../store/action/student/searchResult";
+import store from "../../../../../store";
 import SearchBar from "../../../components/SearchBar";
 import Table from "../../../components/Table";
-import { getStudentList } from "../../../../../services/student";
 import Paging from "../../../../paging/Paging";
+import Modal from "../../../../Modal"
+import "./index.scss";
+
+let mapStateToProps = state => ({
+  defaultValue: {
+    keys: state.students.searchCondition.keys,
+    sex: state.students.searchCondition.sex,
+    limit: state.students.searchCondition.limit,
+    page: state.students.searchCondition.page
+  }
+});
+let mapDispatchToProps = dispatch => ({
+  onSearch: newCondition => {
+    console.log("onsearch: ", newCondition);
+    dispatch(changeCondition(newCondition));
+    dispatch(fetchStudents());
+  }
+});
+let StudentSearchBar = connect(mapStateToProps, mapDispatchToProps)(SearchBar);
+
+mapStateToProps = state => ({
+  datas: state.students.searchResult.student
+});
+let StudentTable = connect(mapStateToProps, null)(Table);
+
+mapStateToProps = state => ({
+  total: state.students.searchResult.total,
+  panelNumber: 5,
+  limit: state.students.searchCondition.limit,
+  current: state.students.searchCondition.page
+});
+mapDispatchToProps = dispatch => ({
+  onChangePage: target => {
+    dispatch(changeCondition({ page: target }));
+    dispatch(fetchStudents());
+  }
+});
+let StudentPaging = connect(mapStateToProps, mapDispatchToProps)(Paging);
+
+mapStateToProps = state => ({
+  isLoading: state.students.searchResult.isLoading
+})
+
+let StudentModal = connect(mapStateToProps, null)(Modal);
+
 
 export default class StudentList extends Component {
-  state = {
-    searchRequirement: {
-      keys: "",
-      sex: "-1"
-    },
-    students: {
-      head: [],
-      datas: []
-    },
-    pager: {
-      total: 0,
-      current: 1,
-      limit: 15,
-      panelNumber: 5
-    }
-  };
-  onSearch = newSearchRequirement => {
-    // console.log(newSearchRequirement);
-    this.setState({
-      searchRequirement: newSearchRequirement,
-      pager: { ...this.state.pager, current: 1 }
-    }, () => {
-      this.getStudentListRequest();
-    });
-  };
+  
   componentDidMount = () => {
-    this.getStudentListRequest();
+    store.dispatch(fetchStudents());
   };
-  getStudentListRequest = () => {
-    const params = {
-      keys: this.state.searchRequirement.keys,
-      sex: +this.state.searchRequirement.sex,
-      page: +this.state.pager.current,
-      limit: +this.state.pager.limit
-    };
-    console.log('请求参数', params);
-    const data = getStudentList(params);
-    // console.log(data, { ...this.state.pager, total: data.total });
-    if (data.msg !== 'success') { return }
-    this.setState({
-      students: { head: data.head, datas: data.data },
-      pager: { ...this.state.pager, total: data.total }
-    });
-  };
-  onChangePage = (target) => {
-    // console.log(target);
-    this.setState({
-      pager: {
-        ...this.state.pager,
-        current: target
-      }
-    }, () => {
-      this.getStudentListRequest();
-    })
-
-  }
+  
   render() {
     // console.log(this.state.students)
     return (
       <>
-        <SearchBar
-          defaultValue={this.state.searchRequirement}
-          onSearch={this.onSearch}
-        ></SearchBar>
-        <Table
-          head={this.state.students.head}
-          datas={this.state.students.datas}
-        ></Table>
+        <StudentSearchBar />
+        <StudentTable />
         <div className="pager-container">
-          <Paging {...this.state.pager} onChangePage={this.onChangePage}></Paging>
+          <StudentPaging />
         </div>
+        <StudentModal>
+          <div>加载中...</div>
+        </StudentModal>
       </>
     );
   }

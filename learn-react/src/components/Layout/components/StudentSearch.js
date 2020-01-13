@@ -8,12 +8,13 @@ let mapStateToProps = state => ({
   defaultValue: {
     keys: state.students.searchCondition.keys,
     sex: state.students.searchCondition.sex,
-    limite: state.students.searchCondition.limite,
+    limit: state.students.searchCondition.limit,
     page: state.students.searchCondition.page
   }
 });
 let mapDispatchToProps = dispatch => ({
   onSearch: newCondition => {
+    console.log("onsearch: ", newCondition);
     dispatch(changeCondition(newCondition));
     dispatch(fetchStudents());
   }

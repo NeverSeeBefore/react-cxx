@@ -51,6 +51,11 @@ export function getStudentList({
   let total = studnetList.length;
   let data = [];
   let msg = 'success';
+  try{
+    sex = parseInt(sex);
+  }catch(e){
+    return { msg: 'fail' };
+  }
   if (sex === -1) {
     data = studnetList.slice((page - 1) * limit, page * limit);
   } else {
