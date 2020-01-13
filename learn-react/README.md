@@ -1,78 +1,43 @@
-## redux-actions
+#
 
-用于简化 actionTypes, actionCreator 以及 reducer
-redux-actions.js.org
+- React: 组件化的UI界面处理方式
+- React-Router: 根据地址匹配路由
+- Redux: 处理数据以及数据变化的方案(主要处理 _共享数据_)
 
-## createAction
+国外知名博主的定义，非官方定义
+_展示组件_
+> 如果一个组件，只用于渲染UI，而没有状态
+_容器组件_
+> 如果一个组件，只提供数据，并不渲染UI界面
 
-帮助创建一个 action 创建函数(action-creator)
+react-redux 
+> 官方提供的库，用于结合react和redux
 
-- 参数： action-type ?payloadCreator[function][返回payload] meta[function][返回meta]
-- 返回值： action-creator
+- Provider 组件, 没有UI，作用：将redux的仓库放到一个上下文中
 
-## createActions
+- connect 函数, 连接组件和数据仓库
 
-创建多个 action 创建函数(action-creator)
+const FinalCounter = connect(mapState2Props, mapDispatch2Props)(Counter)
+  - 参数
+    - 数据与属性的映射  如果是null，没有数据会被映射到属性
+    - dispatch(action)与事件的映射  如果是null, 没有action会映射到事件上
+  - 返回值
+    - 高阶函数
+      - 参数    展示组件
+      - 返回值  容器组件
 
-- 参数
-  - action-map  
-     {
-    actionType: null,
-    actionType: payloadCreators,
-    }
-- 返回值 _属性名 会变成 action-creator 的名称， 属性值 会变成 payload-creator_
-- 返回的 action-creator 的 toString 方法 会被重写，调用时返回 action-type
-
-## handleAction
-
-简化针对单个 action 类型的 reducer 处理
-
-- 参数
-
-  - action-type action 类型[string|如果 action-creator 是用 creationAction(s)创建的，可以传入 action 创建函数]
-  - action-handle 处理函数[(state, action) => {//...}]
-  - initialState 初始值
-
-- 返回值 reducer
-
-## handleActions
-
-简化针对多个 action 类型的 reducer 处理
-
-- 参数
-  - reducer-map
-    {
-    [actionType|creationAction(actionType)]: state => {return state},
-    [actionType|creationAction(actionType)]: (state, action) => {return state},
-    }
-  - initialState 初始值
-
-## combineActions
-
-配合 createActions 和 handleActions 两个函数, 用于处理多个 action-type, 对应相同的处理函数
-
----
-
-createAction 必须传入的一个 actionType,
-如果传第二个参数，需要是一个可以生成 payload 的函数
-createActions 第一个参数 关于 actionType 和 payload 生成函数的映射对象
-这两个方法返回的是 action 创建函数，并且会重写 toString 方法，让 toString 的方法返回值为当前的 actionType
-
----
-
-handleAction 传入 actionType 、 对此 action 的处理函数、 仓库初始值， 返回的是一个 reducer 函数
-handleActions 传入的是一个关于 actionType 和 对应的处理函数, 返回的也是 reducer
-actionType 可以是一个 creatoAction(s)创建的函数，因为 _redux-actions 会自动调用 toString 方法_
-
---- 
-
-最后的combineActions的作用， 出入的参数是actionType， 他们具有共同的特点，就是 _他们对应的reduce处理函数一样_ ，
-                          这种情况下, 通过conbineActions, 返回的是一个方法，是一个actionCreator函数，
-                          createActions({
-                            [combineActions(increase, decrease, add)]: (state, {payload}) => (state + payload)
-                          })
-                          这样， 只要是这几个actionType， 都会执行后边对应的处理函数
-                        
-**这个redux-actions 大大简化了些action， reducer的复杂度**
-**他只是简化了我们的写法，通过它，能做到我们按照整行的写法写的一样的效果**
-**它的底层还是相当于按照正常的写法写了一遍，我们省了了力气，是因为这个库帮我们做了我们没做的事**
+*细节*
+1. 如果对返回的 _容器组件_ 传递额外的属性，这些属性会直接传递 _展示组件_ 上
+2. _connect_
+   第一个参数 
+  mapState2Props(state, ownProps)
+  - state
+  - ownProps 使用者传递的属性
+   第二个参数 (函数或对象)
+  [function] mapDiapatch2Props(dispatch, ownProps)
+  - dispatch
+  - ownProps 使用者传递的属性
+  - 返回的对象 会作为属性传递到展示组件中
+  [object]
+  - 对象的每一个属性是一个 action-creator， 当事件触发时，会自动dispatch
+3. 通过connect连接的组件，会自动得到dispatch属性，使组件有能力自行触发action，但是不推荐这样做

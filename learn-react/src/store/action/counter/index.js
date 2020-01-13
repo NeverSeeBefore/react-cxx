@@ -1,7 +1,7 @@
 import { createActions, handleActions, combineActions } from "redux-actions";
 export const actionTypes = {
   increase: "INCREASE",
-  asyncIncrease: "ASYN_CINCREASE",
+  asyncIncrease: "ASYNC_INCREASE",
   decrease: "DECREASE",
   asyncDecrease: "ASYNC_DECREASE",
   autoIncrease: "AUTO_INCREASE",
@@ -35,8 +35,8 @@ export const {
 export default handleActions(
   {
     [combineActions(increase, decrease, add)]: (state, action) => state + action.payload,
-    [asyncIncrease]: state => state + 1,
-    [asyncDecrease]: state => state - 1
+    // [asyncIncrease]: state => state + 1,
+    // [asyncDecrease]: state => state - 1
   },
   10
 );

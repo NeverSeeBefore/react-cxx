@@ -1,6 +1,7 @@
 import {
   take,
-  takeLatest,
+  // takeLatest,
+  takeEvery,
   delay,
   put,
   fork,
@@ -25,21 +26,21 @@ function* counterAsyncIncreaseTask() {
   console.log("counterTask");
 }
 function* counterAsyncDecreaseTask() {
-  let task = null;
-  while (true) {
-    console.log("counterAsyncDecreaseTask");
-    yield take(actionTypes.asyncDecrease);
-    if (task) {
-      yield cancel(task);
-      console.log("取消之前的任务");
-    }
-    task = yield fork(function*() {
+  // let task = null;
+  // while (true) {
+  //   console.log("counterAsyncDecreaseTask");
+  //   yield take(actionTypes.asyncDecrease);
+  //   if (task) {
+  //     yield cancel(task);
+  //     console.log("取消之前的任务");
+  //   }
+    // task = yield fork(function*() {
       yield delay(2000);
       yield put(decrease());
       console.log("counterTask");
-    });
-    console.log("counterTask");
-  }
+    // });
+  //   console.log("counterTask");
+  // }
 }
 // let task;
 function* autoIncreaseTask() {
@@ -122,11 +123,11 @@ function* autoRace() {
 export default function*() {
   console.log("counter main");
   // yield fork(counterAsyncDecreaseTask)
-  // yield takeEvery(
-  //   actionTypes.asyncIncrease,
-  //   counterAsyncIncreaseTask
-  // );
-  // result = yield takeEvery(actionTypes.asyncDecrease, counterAsyncDecreaseTask);
+  yield takeEvery(
+    actionTypes.asyncIncrease,
+    counterAsyncIncreaseTask
+  );
+  yield takeEvery(actionTypes.asyncDecrease, counterAsyncDecreaseTask);
 
   // yield fork(autoIncreaseTask);
   // yield takeLatest(actionTypes.stopAutoIncrease, stopAutoIncrease);
