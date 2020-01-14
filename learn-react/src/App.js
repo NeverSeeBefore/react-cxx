@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import store from "./store";
 import Test from "./components/Layout/Test";
 import StudentSearch from "./components/Layout/components/StudentSearch"
-import Loading from "./components/Loading";
 
 class App extends React.Component {
   state = {};
@@ -15,8 +14,7 @@ class App extends React.Component {
     return (
       <Provider store={store}>
         <div className="App">
-          <Loading></Loading>
-          {/* <Test></Test> */}
+          <Test></Test>
           {/* <StudentSearch></StudentSearch> */}
         </div>
       </Provider>

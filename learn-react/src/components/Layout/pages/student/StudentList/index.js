@@ -8,6 +8,7 @@ import Table from "../../../components/Table";
 import Paging from "../../../../paging/Paging";
 import Modal from "../../../../Modal"
 import "./index.scss";
+import Loading from "../../../../Loading";
 
 let mapStateToProps = state => ({
   defaultValue: {
@@ -49,7 +50,7 @@ mapStateToProps = state => ({
   isLoading: state.students.searchResult.isLoading
 })
 
-let StudentModal = connect(mapStateToProps, null)(Modal);
+let StudentLoading = connect(mapStateToProps, null)(Loading);
 
 
 export default class StudentList extends Component {
@@ -67,9 +68,7 @@ export default class StudentList extends Component {
         <div className="pager-container">
           <StudentPaging />
         </div>
-        <StudentModal>
-          <div>加载中...</div>
-        </StudentModal>
+        <StudentLoading></StudentLoading>
       </>
     );
   }
