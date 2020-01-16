@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+import { connect } from "../../../../../react-redux";
 import { change as changeCondition } from "../../../../../store/action/student/searchCondition";
 import { fetchStudents } from "../../../../../store/action/student/searchResult";
 import store from "../../../../../store";
 import SearchBar from "../../../components/SearchBar";
 import Table from "../../../components/Table";
 import Paging from "../../../../paging/Paging";
-import Modal from "../../../../Modal"
 import "./index.scss";
 import Loading from "../../../../Loading";
 
@@ -58,7 +57,6 @@ export default class StudentList extends Component {
   componentDidMount = () => {
     store.dispatch(fetchStudents());
   };
-  
   render() {
     // console.log(this.state.students)
     return (
