@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.comp-box {
+  border: 1px solid salmon;
+  box-sizing: border-box;
+}
